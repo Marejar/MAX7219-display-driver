@@ -8,6 +8,8 @@
 #ifndef INC_MAX7219_DRIVER_H_
 #define INC_MAX7219_DRIVER_H_
 
+#include <stdint.h>
+
 //DEFINITIONS
 
 //ADDRESSES - 4 most significant bits can be dummy bits, set to 0 in this driver
@@ -24,7 +26,7 @@
 #define INTENSITY_ADDRESS 0x0A
 #define SCAN_LIMIT_ADDRESS 0x0B
 #define SHUTDOWN_ADDRESS 0x0C
-#define DISPLAY_TEST_ADDRESS 0x0D
+#define DISPLAY_TEST_ADDRESS 0x0F
 
 //NUMBERS CODES
 #define DIGIT_0_DISPLAY_CODE 0x00
@@ -45,5 +47,67 @@
 #define LETTER_L_DISPLAY_CODE 0x0D
 #define LETTER_P_DISPLAY_CODE 0x0E
 #define BLANK_DISPLAY_CODE 0x0F
+
+//SHUTDOWN REGISTER FORMATS
+#define SHUTDOWN_MODE 0x00
+#define NORMAL_OPERATION_MODE 0x01
+
+//DISPLAY INTENSITY
+#define INTENSITY_1_OVER_32 0X00
+#define INTENSITY_3_OVER_32 0X01
+#define INTENSITY_5_OVER_32 0X02
+#define INTENSITY_7_OVER_32 0X03
+#define INTENSITY_9_OVER_32 0X04
+#define INTENSITY_11_OVER_32 0X05
+#define INTENSITY_13_OVER_32 0X06
+#define INTENSITY_15_OVER_32 0X07
+#define INTENSITY_17_OVER_32 0X08
+#define INTENSITY_19_OVER_32 0X09
+#define INTENSITY_21_OVER_32 0X0A
+#define INTENSITY_23_OVER_32 0X0B
+#define INTENSITY_25_OVER_32 0X0C
+#define INTENSITY_27_OVER_32 0X0D
+#define INTENSITY_29_OVER_32 0X0E
+#define INTENSITY_31_OVER_32 0X0F
+
+//SCAN LIMIT REGISTER FORMAT(HOW MANY DIGITS SHOULD BE DIPLAYED)
+#define DISPLAY_0_DIGIT_ONLY 0x00
+#define DISPLAY_0_AND_1_DIGITS 0x01
+#define DISPLAY_0_TO_2_DIGITS 0X02
+#define DISPLAY_0_TO_3_DIGITS 0X03
+#define DISPLAY_0_TO_4_DIGITS 0X04
+#define DISPLAY_0_TO_5_DIGITS 0X05
+#define DISPLAY_0_TO_6_DIGITS 0X06
+#define DISPLAY_0_TO_7_DIGITS 0X07
+
+//DECODE REGISTER FORMAT
+#define NO_DECODE 0x00
+#define DECODE_0_DIGIT_ONLY 0x01
+#define DECODE_0_TO_3_DIGITS 0x02
+#define DECODE_0_TO_7_DIGITS 0x03
+
+//OTHER MACROS
+#define ENABLE 1
+#define DISABLE 0
+
+typedef struct{
+	uint8_t address;
+	uint8_t payload;
+}data_to_transmit_t;
+
+
+//POINTER TO SPI TRANSMIT FUNCTION
+void(*spi_send)(data_to_transmit_t *data);
+
+//SETTING FUNCTIONS
+void EnorDi_shutdown_mode(uint8_t EnorDi);
+void set_display_intensity(uint8_t display_intensity);
+void set_scan_limit_register_format(uint8_t number_of_digits_to_display);
+void set_decode_register_format(uint8_t register_format);
+
+//DISPLAYING FUNCTIONS FOR BCD DECODING ON EVERY DIGIT
+void clear_display(void);
+
+
 
 #endif /* INC_MAX7219_DRIVER_H_ */
