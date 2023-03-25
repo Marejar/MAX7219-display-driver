@@ -96,26 +96,30 @@ int main(void)
 
   spi_send = spi1_send_data;
 
+  MAX7219_BCD_Init();
 
-  MAX7219_EnorDi_shutdown_mode(DISABLE);
-  MAX7219_set_display_intensity(INTENSITY_3_OVER_32);
-  MAX7219_set_scan_limit_register_format(DISPLAY_0_TO_7_DIGITS);
-  MAX7219_set_decode_register_format(DECODE_0_TO_7_DIGITS);
-  MAX7219_BCD_clear_display();
-  MAX7219_BCD_display_single_char(DIGIT_8_DISPLAY_CODE, DIGIT_7_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_7_DISPLAY_CODE, DIGIT_6_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_6_DISPLAY_CODE, DIGIT_5_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_5_DISPLAY_CODE, DIGIT_4_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_4_DISPLAY_CODE, DIGIT_3_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_3_DISPLAY_CODE, DIGIT_2_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_2_DISPLAY_CODE, DIGIT_1_ADDRESS);
-  MAX7219_BCD_display_single_char(DIGIT_1_DISPLAY_CODE, DIGIT_0_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_8_DISPLAY_CODE, DIGIT_7_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_7_DISPLAY_CODE, DIGIT_6_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_6_DISPLAY_CODE, DIGIT_5_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_5_DISPLAY_CODE, DIGIT_4_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_4_DISPLAY_CODE, DIGIT_3_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_3_DISPLAY_CODE, DIGIT_2_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_2_DISPLAY_CODE, DIGIT_1_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(DIGIT_1_DISPLAY_CODE, DIGIT_0_ADDRESS, DISABLE);
   HAL_Delay(2000);
   MAX7219_EnorDi_test_mode(ENABLE);
   HAL_Delay(2000);
   MAX7219_EnorDi_test_mode(DISABLE);
+  HAL_Delay(2000);
 
-
+  MAX7219_BCD_display_single_char(LETTER_E_DISPLAY_CODE, DIGIT_7_ADDRESS, ENABLE);
+  MAX7219_BCD_display_single_char(BLANK_DISPLAY_CODE, DIGIT_6_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(LETTER_H_DISPLAY_CODE, DIGIT_5_ADDRESS, ENABLE);
+  MAX7219_BCD_display_single_char(BLANK_DISPLAY_CODE, DIGIT_4_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(LETTER_L_DISPLAY_CODE, DIGIT_3_ADDRESS, ENABLE);
+  MAX7219_BCD_display_single_char(BLANK_DISPLAY_CODE, DIGIT_2_ADDRESS, DISABLE);
+  MAX7219_BCD_display_single_char(LETTER_P_DISPLAY_CODE, DIGIT_1_ADDRESS, ENABLE);
+  MAX7219_BCD_display_single_char(BLANK_DISPLAY_CODE, DIGIT_0_ADDRESS, DISABLE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -285,7 +289,7 @@ void spi1_send_data(data_to_transmit_t *data){
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 	  HAL_SPI_Transmit(&hspi1, (uint8_t*)data, sizeof(*data), HAL_MAX_DELAY);
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-	  HAL_Delay(100);
+	  HAL_Delay(10);
 
 }
 

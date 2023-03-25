@@ -84,7 +84,10 @@
 #define DISPLAY_0_TO_6_DIGITS 0X06
 #define DISPLAY_0_TO_7_DIGITS 0X07
 
-//Decode register format
+//Decode register format (decoding means that BCD code must be sent
+//as a data on a proper digit address to display demanded digit)
+//No decoding means that every bit of data is associated with
+//single segment of display digit
 #define NO_DECODE 0x00
 #define DECODE_0_DIGIT_ONLY 0x01
 #define DECODE_0_TO_3_DIGITS 0x0F
@@ -115,7 +118,8 @@ void MAX7219_set_decode_register_format(uint8_t register_format);
 void MAX7219_BCD_clear_display(void);
 void MAX7219_BCD_display_single_char(uint8_t character_code, uint8_t digit_address, uint8_t EnorDi_decimal_point);
 
-
+//Default initializing function for BCD decoding on every digit (DECODE_0_TO_7_DIGITS is used)
+void MAX7219_BCD_Init(void);
 
 
 

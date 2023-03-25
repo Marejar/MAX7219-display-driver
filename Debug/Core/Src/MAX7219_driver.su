@@ -5,3 +5,4 @@ MAX7219_driver.c:49:6:MAX7219_set_scan_limit_register_format	24	static
 MAX7219_driver.c:57:6:MAX7219_set_decode_register_format	24	static
 MAX7219_driver.c:66:6:MAX7219_BCD_clear_display	16	static
 MAX7219_driver.c:76:6:MAX7219_BCD_display_single_char	24	static
+MAX7219_driver.c:88:6:MAX7219_BCD_Init	8	static
