@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 
-//DEFINITIONS
+//MACROS DEFINITIONS
 
-//ADDRESSES - 4 most significant bits can be dummy bits, set to 0 in this driver
+//Addresses - 4 most significant bits can be dummy bits, which have been set to 0 in this driver
 #define NO_OP_ADDRESS 0x00
 #define DIGIT_0_ADDRESS 0x01
 #define DIGIT_1_ADDRESS 0x02
@@ -28,7 +28,7 @@
 #define SHUTDOWN_ADDRESS 0x0C
 #define DISPLAY_TEST_ADDRESS 0x0F
 
-//NUMBERS CODES
+//Codes of digits which can be displayed in BCD format
 #define DIGIT_0_DISPLAY_CODE 0x00
 #define DIGIT_1_DISPLAY_CODE 0x01
 #define DIGIT_2_DISPLAY_CODE 0x02
@@ -40,7 +40,7 @@
 #define DIGIT_8_DISPLAY_CODE 0x08
 #define DIGIT_9_DISPLAY_CODE 0x09
 
-//SYMBOLS AND LETTERS CODES
+//Symbols and letters code in BCD format
 #define DASH_DISPLAY_CODE 0x0A
 #define LETTER_E_DISPLAY_CODE 0x0B
 #define LETTER_H_DISPLAY_CODE 0x0C
@@ -48,11 +48,15 @@
 #define LETTER_P_DISPLAY_CODE 0x0E
 #define BLANK_DISPLAY_CODE 0x0F
 
-//SHUTDOWN REGISTER FORMATS
+//Shutdown register formats
 #define SHUTDOWN_MODE 0x00
-#define NORMAL_OPERATION_MODE 0x01
+#define SHUTDOWN_NORMAL_OPERATION_MODE 0x01
 
-//DISPLAY INTENSITY
+//Display test register format
+#define TEST_NORMAL_OPERATION_MODE 0x00
+#define TEST_MODE 0x01
+
+//Display intensity
 #define INTENSITY_1_OVER_32 0X00
 #define INTENSITY_3_OVER_32 0X01
 #define INTENSITY_5_OVER_32 0X02
@@ -70,7 +74,7 @@
 #define INTENSITY_29_OVER_32 0X0E
 #define INTENSITY_31_OVER_32 0X0F
 
-//SCAN LIMIT REGISTER FORMAT(HOW MANY DIGITS SHOULD BE DIPLAYED)
+//Scan limit register format (how many digits of display should be displayed)
 #define DISPLAY_0_DIGIT_ONLY 0x00
 #define DISPLAY_0_AND_1_DIGITS 0x01
 #define DISPLAY_0_TO_2_DIGITS 0X02
@@ -80,13 +84,13 @@
 #define DISPLAY_0_TO_6_DIGITS 0X06
 #define DISPLAY_0_TO_7_DIGITS 0X07
 
-//DECODE REGISTER FORMAT
+//Decode register format
 #define NO_DECODE 0x00
 #define DECODE_0_DIGIT_ONLY 0x01
-#define DECODE_0_TO_3_DIGITS 0x02
-#define DECODE_0_TO_7_DIGITS 0x03
+#define DECODE_0_TO_3_DIGITS 0x0F
+#define DECODE_0_TO_7_DIGITS 0xFF
 
-//OTHER MACROS
+//Other macros
 #define ENABLE 1
 #define DISABLE 0
 
@@ -96,17 +100,22 @@ typedef struct{
 }data_to_transmit_t;
 
 
-//POINTER TO SPI TRANSMIT FUNCTION
+//Pointer to SPI Transmit function which should be implemented
+//and assign to this pointer by user of the driver
 void(*spi_send)(data_to_transmit_t *data);
 
-//SETTING FUNCTIONS
-void EnorDi_shutdown_mode(uint8_t EnorDi);
-void set_display_intensity(uint8_t display_intensity);
-void set_scan_limit_register_format(uint8_t number_of_digits_to_display);
-void set_decode_register_format(uint8_t register_format);
+//Settings functions
+void MAX7219_EnorDi_shutdown_mode(uint8_t EnorDi);
+void MAX7219_EnorDi_test_mode(uint8_t EnorDi);
+void MAX7219_set_display_intensity(uint8_t display_intensity);
+void MAX7219_set_scan_limit_register_format(uint8_t number_of_digits_to_display);
+void MAX7219_set_decode_register_format(uint8_t register_format);
 
-//DISPLAYING FUNCTIONS FOR BCD DECODING ON EVERY DIGIT
-void clear_display(void);
+//Displaying functions for BCD decoding on every digit (DECODE_0_TO_7_DIGITS is used)
+void MAX7219_BCD_clear_display(void);
+void MAX7219_BCD_display_single_char(uint8_t character_code, uint8_t digit_address, uint8_t EnorDi_decimal_point);
+
+
 
 
 

@@ -93,72 +93,28 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  char msg[10] = "Init";
-  struct data_to_send{
-	  uint8_t address;
-	  uint8_t data;
-  };
-  struct data_to_send data1;
-  data1.address = DISPLAY_TEST_ADDRESS;
-  data1.data = 0x01;
-  HAL_Delay(2000);
-
-  HAL_UART_Transmit(&huart2, (uint8_t*)msg, 5, HAL_MAX_DELAY);
-
-/*  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_Delay(1000);*/
 
   spi_send = spi1_send_data;
 
-//  data1.address = SHUTDOWN_ADDRESS;
-//  data1.data = 0x01;
-//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-//  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-//  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 
-  EnorDi_shutdown_mode(DISABLE);
+  MAX7219_EnorDi_shutdown_mode(DISABLE);
+  MAX7219_set_display_intensity(INTENSITY_3_OVER_32);
+  MAX7219_set_scan_limit_register_format(DISPLAY_0_TO_7_DIGITS);
+  MAX7219_set_decode_register_format(DECODE_0_TO_7_DIGITS);
+  MAX7219_BCD_clear_display();
+  MAX7219_BCD_display_single_char(DIGIT_8_DISPLAY_CODE, DIGIT_7_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_7_DISPLAY_CODE, DIGIT_6_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_6_DISPLAY_CODE, DIGIT_5_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_5_DISPLAY_CODE, DIGIT_4_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_4_DISPLAY_CODE, DIGIT_3_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_3_DISPLAY_CODE, DIGIT_2_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_2_DISPLAY_CODE, DIGIT_1_ADDRESS);
+  MAX7219_BCD_display_single_char(DIGIT_1_DISPLAY_CODE, DIGIT_0_ADDRESS);
+  HAL_Delay(2000);
+  MAX7219_EnorDi_test_mode(ENABLE);
+  HAL_Delay(2000);
+  MAX7219_EnorDi_test_mode(DISABLE);
 
-  data1.address = INTENSITY_ADDRESS;
-  data1.data = 0x0F;
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  data1.address = SCAN_LIMIT_ADDRESS;
-  data1.data = 0x07;
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  data1.address = DECODE_MODE_ADDRESS;
-  data1.data = 0xFF;
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_Delay(1000);
-
-  for(int i = 1 ; i<=8; i++){
-	  data1.address = i;
-	  data1.data = 0x7F;
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-	  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-	  HAL_Delay(500);
-  }
-
-  data1.address = DIGIT_6_ADDRESS;
-  data1.data = 0x09;
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_Delay(1000);
-  data1.address = DIGIT_5_ADDRESS;
-  data1.data = 0x06;
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-  HAL_SPI_Transmit(&hspi1, (uint8_t*)&data1, 2, HAL_MAX_DELAY);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-  HAL_Delay(1000);
 
   /* USER CODE END 2 */
 
